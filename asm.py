@@ -224,8 +224,11 @@ def main(args):
 
     # now output the assembled code:
     for i in xrange(0,state.maxorg):
-        dest.write( chr((state.out[i] >> 8) & 0xff) )
-        dest.write( chr(state.out[i] & 0xff) )
+        # DCPU is "little endian"
+        # So the least significant byte ("little end") comes first.
+        dest.write( chr(state.out[i] & 0xff) ) # Least significant byte ("little end")
+        dest.write( chr((state.out[i] >> 8) & 0xff) ) # Most significant byte ("big end")
+        
 
     return 0
 
